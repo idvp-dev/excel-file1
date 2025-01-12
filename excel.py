@@ -8,4 +8,4 @@ st.title('Mi primera pagina web con Streamlit')
 
 df=pd.read_excel('VentasTienda.xlsx')
 
-st.write(df)
+st.write(df)  
