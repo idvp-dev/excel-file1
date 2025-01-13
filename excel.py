@@ -65,7 +65,7 @@ forma_pago=st.sidebar.multiselect(
 
 )
 
-df_seleccion=df.query('Vendedor==@vendedor & Categoría==@categoría & Producto==@producto & Forma de pago==@forma_pago')
+df_seleccion=df.query('Vendedor==@vendedor & Categoría==@categoría & Producto==@producto')
 
 
 total_ventas=int(df_seleccion['Precio'].sum())
