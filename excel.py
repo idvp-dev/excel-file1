@@ -70,7 +70,7 @@ forma_pago=st.sidebar.multiselect(
 
 )
 
-df_seleccion=df.query('Vendedor==@vendedor & Categoría==@categoría & Producto==@producto')
+df_seleccion=df.query('Vendedor==@vendedor & Categoría==@categoría & Producto==@producto & `Forma de pago`==@forma_pago')
 
 
 total_ventas=int(df_seleccion['Precio'].sum())
@@ -108,7 +108,7 @@ ventas_por_producto = (
 fig_ventas_producto=px.bar(
 ventas_por_producto,
 x='Precio',
-y=ventas_por_producto.index,
+y='Producto',
 orientation='h',
 title='<b> ventas por producto </b>',
 color_discrete_sequence=['#f5b932']*len(ventas_por_producto),
@@ -139,7 +139,7 @@ ventas_por_vendedor = (
 fig_ventas_vendedor=px.bar(
 ventas_por_vendedor,
 x='Precio',
-y=ventas_por_vendedor.index,
+y='Vendedor',
 #orientation='h',
 title='<b> ventas por vendedor </b>',
 color_discrete_sequence=['#f5b932']*len(ventas_por_vendedor),
@@ -171,4 +171,4 @@ st.markdown(hide_st_style, unsafe_allow_html=True)
 
 
 
-st.write(df)  
+#st.write(df)  
