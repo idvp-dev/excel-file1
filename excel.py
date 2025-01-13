@@ -3,8 +3,8 @@ import pandas as pd
 
 
 
-#import pip
-#pip.main(["install","openpyxl","plotly.express"])
+import pip
+pip.main(["install","openpyxl","plotly.express"])
 
 import plotly.express as px
 
