@@ -70,12 +70,12 @@ forma_pago=st.sidebar.multiselect(
 
 )
 
-df_seleccion=df.query('Vendedor==@vendedor & Categoría==@categoría & Producto==@producto ')
+df_seleccion=df.query('Vendedor==@vendedor & Categoría==@categoría & Producto==@producto & `Forma de pago`==@forma_pago ')
 #& `Forma de pago`==@forma_pago
 
-total_ventas=int(df_seleccion['Precio'].sum())
+total_ventas=int(df_seleccion['Ventas'].sum())
 
-total_facturas=int(df_seleccion['Precio'].count())
+total_facturas=int(df_seleccion['Ventas'].count())
 
 left_column, right_column=st.columns(2)
 
@@ -98,16 +98,16 @@ st.dataframe(df_seleccion)
 
 ventas_por_producto = (
     df_seleccion
-    .groupby('Producto')['Precio']  # Especificamos la columna directamente
+    .groupby('Producto')['Ventas']  # Especificamos la columna directamente
     .sum()
     .reset_index()  # Convertimos el índice en columna
-    .sort_values('Precio', ascending=True)
+    .sort_values('Ventas', ascending=True)
 )
 
 
 fig_ventas_producto=px.bar(
 ventas_por_producto,
-x='Precio',
+x='Ventas',
 y='Producto',
 orientation='h',
 title='<b> ventas por producto </b>',
@@ -127,10 +127,10 @@ fig_ventas_producto.update_layout(
 
 ventas_por_vendedor = (
     df_seleccion
-    .groupby('Vendedor')['Precio']  # Especificamos la columna directamente
+    .groupby('Vendedor')['Ventas']  # Especificamos la columna directamente
     .sum()
     .reset_index()  # Convertimos el índice en columna
-    .sort_values('Precio', ascending=True)
+    .sort_values('Ventas', ascending=True)
 )
 
 
@@ -138,7 +138,7 @@ ventas_por_vendedor = (
 
 fig_ventas_vendedor=px.bar(
 ventas_por_vendedor,
-x='Precio',
+x='Ventas',
 y='Vendedor',
 #orientation='h',
 title='<b> ventas por vendedor </b>',
