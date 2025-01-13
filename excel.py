@@ -4,7 +4,7 @@ import plotly.express as px
 
 
 import pip
-pip.main(["install","openpyxl"])
+pip.main(["install","openpyxl","plotly-express"])
 
 #st.title('Mi primera pagina web con Streamlit')
 
