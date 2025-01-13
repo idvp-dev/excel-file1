@@ -86,7 +86,7 @@ st.markdown('---')
 
 st.dataframe(df_seleccion)
 
-ventas_por_producto=(df_seleccion.groupby(by=['Producto']).sum()[['Precio']].sort_values(by='Precio'))
+ventas_por_producto=(df_seleccion.groupby(by=['Producto']).sum()[['Cantidad']].sort_values(by='Cantidad'))
 
 fig_ventas_producto=px.bar(
 ventas_por_producto,
@@ -106,7 +106,7 @@ fig_ventas_producto.update_layout(
 
 
 
-ventas_por_vendedor=(df_seleccion.groupby(by=['Vendedor']).sum()[['Precio']].sort_values(by='Precio'))
+ventas_por_vendedor=(df_seleccion.groupby(by=['Vendedor']).sum()[['Cantidad']].sort_values(by='Cantidad'))
 
 fig_ventas_vendedor=px.bar(
 ventas_por_vendedor,
