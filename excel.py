@@ -26,4 +26,28 @@ df=pd.read_excel(archivo_excel,
                  sheet_name=hoja_excel,
                  usecols='A:I')
 
+
+st.sidebar.header('Filtros:') #barra lateral para filtros
+
+vendedor=st.sidebar.multiselect(
+      'Seleccione el vendedor:',
+      options=df['Vendedor'].unique(),
+      default=df['Vendedor'].unique() #esto para dejar un filtro en específico pero vamos a dejarlos por default
+
+)
+
+categoría=st.sidebar.multiselect(
+      'Seleccione el vendedor:',
+      options=df['Categoría'].unique(),
+      default=df['Categoría'].unique() #esto para dejar un filtro en específico pero vamos a dejarlos por default
+
+)
+
+provinia=st.sidebar.multiselect(
+      'Seleccione el vendedor:',
+      options=df['Provincia'].unique(),
+      default=df['Provincia'].unique() #esto para dejar un filtro en específico pero vamos a dejarlos por default
+
+)
+
 st.write(df)  
