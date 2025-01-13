@@ -65,7 +65,7 @@ forma_pago=st.sidebar.multiselect(
 
 )
 
-df_seleccion=df.query('Vendedor==@vendedor & Categoría==@categoría & Producto==@producto')
+df_seleccion=df.query('Vendedor==@vendedor & Categoría==@categoría & Producto==@producto  `Forma de pago`==forma_pago')
 
 
 total_ventas=int(df_seleccion['Precio'].sum())
@@ -86,11 +86,14 @@ st.markdown('---')
 
 st.dataframe(df_seleccion)
 
-ventas_por_producto=(df_seleccion.groupby(by=['Producto']).sum()[['Cantidad']].sort_values(by='Cantidad'))
+df['Precio'] = df['Precio'].astype(str).str.replace('$', '').str.replace(',', '').str.strip()
+df['Precio'] = pd.to_numeric(df['Precio'], errors='coerce')
+
+ventas_por_producto=(df_seleccion.groupby(by=['Producto']).sum()[['Precio']].sort_values(by='Precio'))
 
 fig_ventas_producto=px.bar(
 ventas_por_producto,
-x='Precio',
+x='Cantidad',
 y=ventas_por_producto.index,
 orientation='h',
 title='<b> ventas por producto </b>',
@@ -106,7 +109,7 @@ fig_ventas_producto.update_layout(
 
 
 
-ventas_por_vendedor=(df_seleccion.groupby(by=['Vendedor']).sum()[['Cantidad']].sort_values(by='Cantidad'))
+ventas_por_vendedor=(df_seleccion.groupby(by=['Vendedor']).sum()[['Precio']].sort_values(by='Precio'))
 
 fig_ventas_vendedor=px.bar(
 ventas_por_vendedor,
