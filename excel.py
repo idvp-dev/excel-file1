@@ -3,8 +3,8 @@ import pandas as pd
 
 
 
-import pip
-pip.main(["install","openpyxl","plotly.express"])
+#import pip
+#pip.main(["install","openpyxl","plotly.express"])
 
 import plotly.express as px
 
@@ -18,7 +18,7 @@ st.title(':clipboard: Reporte de Ventas') #titulo del dash
 st.subheader('Compañía TECH SAS')
 st.markdown('##') #para separar el título de los KPI's, se inserta un parrafo usando un campo de markdown
 
-archivo_excel='VentasTienda.xlsx'
+archivo_excel='/home/ivan/Documentos/UDEMY/STREAMLIT/VentasTienda.xlsx'
 hoja_excel='Hoja 1'
 
 #df = pd.read_excel('/home/ivan/Documentos/UDEMY/STREAMLIT/VentasTienda.xlsx')
@@ -27,6 +27,9 @@ hoja_excel='Hoja 1'
 df=pd.read_excel(archivo_excel,
                  sheet_name=hoja_excel,
                  usecols='A:I')
+
+df['Precio'] = df['Precio'].astype(str).str.replace('$', '').str.replace(',', '').str.strip()
+df['Precio'] = pd.to_numeric(df['Precio'], errors='coerce')
 
 
 st.sidebar.header('Filtros:') #barra lateral para filtros
@@ -88,14 +91,23 @@ st.markdown('---')
 
 st.dataframe(df_seleccion)
 
-#df['Precio'] = df['Precio'].astype(str).str.replace('$', '').str.replace(',', '').str.strip()
-#df['Precio'] = pd.to_numeric(df['Precio'], errors='coerce')
 
-ventas_por_producto=(df_seleccion.groupby(by=['Producto']).sum()[['Precio']].sort_values(by='Precio'))
+
+#ventas_por_producto=(df_seleccion.groupby(by=['Producto']).sum()[['Precio']].sort_values(by='Precio'))
+
+
+ventas_por_producto = (
+    df_seleccion
+    .groupby('Producto')['Precio']  # Especificamos la columna directamente
+    .sum()
+    .reset_index()  # Convertimos el índice en columna
+    .sort_values('Precio', ascending=True)
+)
+
 
 fig_ventas_producto=px.bar(
 ventas_por_producto,
-x='Cantidad',
+x='Precio',
 y=ventas_por_producto.index,
 orientation='h',
 title='<b> ventas por producto </b>',
@@ -111,7 +123,18 @@ fig_ventas_producto.update_layout(
 
 
 
-ventas_por_vendedor=(df_seleccion.groupby(by=['Vendedor']).sum()[['Precio']].sort_values(by='Precio'))
+#ventas_por_vendedor=(df_seleccion.groupby(by=['Vendedor']).sum()[['Precio']].sort_values(by='Precio'))
+
+ventas_por_vendedor = (
+    df_seleccion
+    .groupby('Vendedor')['Precio']  # Especificamos la columna directamente
+    .sum()
+    .reset_index()  # Convertimos el índice en columna
+    .sort_values('Precio', ascending=True)
+)
+
+
+
 
 fig_ventas_vendedor=px.bar(
 ventas_por_vendedor,
