@@ -1,10 +1,12 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+
 
 
 import pip
-pip.main(["install","openpyxl","plotly-express"])
+pip.main(["install","openpyxl","plotly.express"])
+
+import plotly.express as px
 
 #st.title('Mi primera pagina web con Streamlit')
 
@@ -86,3 +88,64 @@ st.markdown('---')
 
 st.dataframe(df_seleccion)
 
+#df['Precio'] = df['Precio'].astype(str).str.replace('$', '').str.replace(',', '').str.strip()
+#df['Precio'] = pd.to_numeric(df['Precio'], errors='coerce')
+
+ventas_por_producto=(df_seleccion.groupby(by=['Producto']).sum()[['Precio']].sort_values(by='Precio'))
+
+fig_ventas_producto=px.bar(
+ventas_por_producto,
+x='Cantidad',
+y=ventas_por_producto.index,
+orientation='h',
+title='<b> ventas por producto </b>',
+color_discrete_sequence=['#f5b932']*len(ventas_por_producto),
+template='plotly_white'
+
+)
+
+fig_ventas_producto.update_layout(
+    plot_bgcolor='rgba(0,0,0,0)',
+    xaxis=(dict(showgrid=False))
+)
+
+
+
+ventas_por_vendedor=(df_seleccion.groupby(by=['Vendedor']).sum()[['Precio']].sort_values(by='Precio'))
+
+fig_ventas_vendedor=px.bar(
+ventas_por_vendedor,
+x='Precio',
+y=ventas_por_vendedor.index,
+#orientation='h',
+title='<b> ventas por vendedor </b>',
+color_discrete_sequence=['#f5b932']*len(ventas_por_vendedor),
+template='plotly_white'
+
+)
+
+fig_ventas_vendedor.update_layout(
+    xaxis=dict(tickmode='linear'),
+    plot_bgcolor='rgba(0,0,0,0)',
+    yaxis=(dict(showgrid=False))
+)
+
+left_column, right_column=st.columns(2)
+left_column.plotly_chart(fig_ventas_vendedor, use_container_width=True)
+right_column.plotly_chart(fig_ventas_producto,use_container_width=True)
+
+
+hide_st_style="""
+              <style>
+               footer {visibility : hidden;}
+              </style>
+              """
+
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
+
+
+
+
+
+st.write(df)  
