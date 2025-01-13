@@ -3,8 +3,8 @@ import pandas as pd
 
 
 
-import pip
-pip.main(["install","openpyxl","plotly.express"])
+#import pip
+#pip.main(["install","openpyxl","plotly.express"])
 
 import plotly.express as px
 
@@ -70,8 +70,8 @@ forma_pago=st.sidebar.multiselect(
 
 )
 
-df_seleccion=df.query('Vendedor==@vendedor & Categoría==@categoría & Producto==@producto')
-
+df_seleccion=df.query('Vendedor==@vendedor & Categoría==@categoría & Producto==@producto ')
+#& `Forma de pago`==@forma_pago
 
 total_ventas=int(df_seleccion['Precio'].sum())
 
